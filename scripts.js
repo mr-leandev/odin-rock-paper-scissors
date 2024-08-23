@@ -6,13 +6,13 @@ console.log("Rock paper scissors is running...");
 let playerScore = 0;
 let computerScore = 0;
 let ties = 0;
-const rounds = 5;
+let successfulRounds = 0;
+const totalRounds = 5;
 
-for (let i = 0; i < rounds; i++) {
+for (let i = 0; successfulRounds < totalRounds; i++) {
 
     //Initiate input validation variables
     let validInput = false;
-    let playerChoice = "";
 
 
 
@@ -24,7 +24,7 @@ for (let i = 0; i < rounds; i++) {
     //Handle "true" return. 
     if (validInput = validatePrompt(promptChoice)){ //If return is true
         console.log("Input Validation: " + validInput);
-        let playerChoice = promptChoice; //
+        playerChoice = promptChoice; //
         console.log("playerChoice: " + playerChoice);
     }
 
@@ -40,28 +40,51 @@ for (let i = 0; i < rounds; i++) {
 
     console.log("Evaluating game: Win/Lose/Tie")
     let winner = (evaluateGame(playerChoice, computerChoice));
-    console.log("Player chose: " + playerChoice + " Computer chose: " + computerChoice);
+    console.log("Winner is " + winner + "Player chose: " + playerChoice + " Computer chose: " + computerChoice);
     //Handle return for a tie, need to test this returns to main loop correctly
-    if (winner === "tie"){
+    if (winner === "Tie"){
         console.log("Its a tie! No points awarded.");
         ties++;
-        rounds++; //add to rounds to increase iteration count
+        continue; //Skip the increment of successful rounds
     }
     if (winner === "Player"){
         console.log("Player wins!");
         playerScore++;
+        successfulRounds++;
         
     }
     if (winner === "Computer"){
         console.log("Computer wins!");
         computerScore++;
+        successfulRounds++;
     }
 
 
 
 
-}//End of round
+} //End of for loop
 
+console.log("Game concluded - Final Scores");
+console.log(`Player: ${playerScore}, Computer: ${computerScore}, Ties: ${ties}`);
+
+if (playerScore > computerScore) {
+    console.log("Player wins the game!");
+} else if (computerScore > playerScore) {
+    console.log("Computer wins the game!");
+} else {
+    console.log("The game is a draw!");
+}
+
+//End of round
+//Can package above as a called function with arguments 
+//Can be executed and track wins/losses over rounds 
+//Requires basic state management
+
+
+
+//Helper Functions *   *
+//Helper Functions   *
+//Helper Functions *   *
 
 function getComputerChoice(randomChoice){
     console.log("Computer random math is: " + randomChoice);
@@ -80,35 +103,21 @@ function getComputerChoice(randomChoice){
 
 function evaluateGame(playerChoice, computerChoice){
         if (playerChoice === computerChoice){
-            return "tie";
+            return "Tie";
         }
         if (
             (playerChoice === "Rock" && computerChoice === "Scissors") ||
             (playerChoice === "Paper" && computerChoice === "Rock") ||
             (playerChoice === "Scissors" && computerChoice === "Paper")
         ) {
-            return "player";
+            return "Player";
         } else {
-            return "computer";
+            return "Computer";
         }
 
 
 }
 
-
-
-
-//Possible to make a for loop to categorise winners. supply it the two variables 
-//have it designate a "winner", pull the winner (player/computer) to minimise logic
-/*
-
-List combinations
-
-*/
-
-//Helper Functions *   *
-//Helper Functions   *
-//Helper Functions *   *
 
 
 function validatePrompt(promptChoice){
